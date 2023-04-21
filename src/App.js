@@ -1,24 +1,64 @@
-import logo from './logo.svg';
-import './App.css';
 
+import './App.css';
+import { FaPlus } from "react-icons/fa";
+import {MdDelete } from "react-icons/md";
+import { useState } from 'react';
 function App() {
+   
+  const [inputvalue,Setinputvalue]=useState("")
+  const[submit,SetSubmit]=useState([])
+ 
+  const changebtn=(e)=>{
+     Setinputvalue(e.target.value)
+  }
+  const plusbtn=()=>{
+    if(inputvalue.length>0){
+      SetSubmit([...submit,inputvalue])
+      Setinputvalue([])
+    }
+    else{
+       
+    }
+    
+  }
+  const deletefn=(id)=>{
+    const tododelete= submit.filter((ele,ind)=>{
+      return ind !==id
+    })
+    SetSubmit(tododelete)
+    
+  }
+  
   return (
+    <>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1 style={{textAlign:"center",color:"rgb(217, 76, 76)"}}>Todo App</h1>
+           <div className="input">
+               <input type="text" value={inputvalue} onChange={changebtn} placeholder='✍ Type something Here' />
+               <FaPlus  onClick={plusbtn} className='font'/>
+           </div>
+
+{/* output wala section */}
+           
+            {
+              submit.map((ele,ind)=>{
+                return(
+                  <>
+                  <div key={ind} className='output'>
+                  <p key={ind} className='contentoutput'>{ele}</p>
+                  <MdDelete onClick={()=>deletefn(ind)} className='deleteicon'/>
+                  </div>
+                  </>
+                )
+                
+              })
+            }
+           
+           {/* </div> */}
+           
     </div>
+    
+ </>
   );
 }
 
